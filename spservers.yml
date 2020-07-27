@@ -1,0 +1,8 @@
+---
+- name: Spservers set up
+  hosts: spservers
+  become: yes
+  roles:
+    - azcli
+    - docker
+    - psql

@@ -1,0 +1,33 @@
+# レスポンスヘッダーのnginx バージョン番号非表示
+server_tokens off;
+
+# クリックジャッキング対策
+add_header X-Frame-Options SAMEORIGIN;
+
+# XSS 対策
+add_header X-XSS-Protection "1; mode=block";
+
+# ブラウザの MIME Type sniffing の防止
+add_header X-Content-Type-Options nosniff;
+
+# CSP の追加
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; frame-src 'none'; object-src 'none'; media-src 'self' data: blob:;";
+
+# エンティティタグ付加をオフ
+etag off;
+
+# ディレクトリのインデックス表示を明示的にオフ
+autoindex off;
+
+# 許可するHTTP メソッドを指定
+if ($request_method !~ ^(GET|HEAD|POST)$) {
+    return 444;
+}
+
+# ヘッダへ HSTS を追加
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains;";
+
+# リクエストのサイズ制限
+client_max_body_size 10k;
+client_header_buffer_size 1k;
+large_client_header_buffers 4 8k;

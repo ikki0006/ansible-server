@@ -1,0 +1,11 @@
+StrictHostKeyChecking no
+
+host lcap01
+  HostName 127.0.0.1
+  User admin
+  Port 10000
+
+host lcts01
+  HostName 192.168.0.1
+  User admin
+

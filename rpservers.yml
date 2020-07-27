@@ -1,0 +1,6 @@
+---
+- name: rpservers set up
+  hosts: rpservers
+  become: yes
+  roles:
+    - nginx

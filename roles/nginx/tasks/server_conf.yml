@@ -1,0 +1,8 @@
+---
+- name: setting nginx server config
+  template:
+    src: conf.d/server.conf.{{ server_category }}.j2
+    dest: /etc/nginx/conf.d/server.conf
+    backup: yes
+  when: "server_category  in group_names"
+  notify: restart nginx

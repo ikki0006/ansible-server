@@ -1,0 +1,38 @@
+---
+- name: pip install packageing
+  pip:
+    name:
+      - docker==4.0.2
+      - docker-compose==1.24.1
+
+- name: setting sysctl #docker-composeに割り当てるメモリを増やす処理
+  sysctl:
+    name: vm.max_map_count
+    value: "262144"
+    reload: yes # default yes
+    sysctl_file: /etc/sysctl.d/99-sysctl.conf
+  when: "'giservers in group_names'"
+
+- name: compose directory create
+  file:
+    path: /opt/docker_compose
+    state: directory
+
+- name: setting compose giserver
+  template: src=docker-compose@gi.j2 dest=/opt/docker_compose/docker-compose.yml backup=yes
+  when:
+    - "'giservers' in group_names"
+
+- name: compose up
+  docker_compose:
+    project_src: /opt/docker_compose
+    files:
+      - docker-compose.yml
+    state: present
+
+- name: docker-compose status check
+  shell: docker-compose ps
+  args:
+    chdir: /opt/docker_compose
+  register: ps_result
+  failed_when: '"Exit" in ps_result.stdout'

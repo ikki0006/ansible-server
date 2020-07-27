@@ -1,0 +1,40 @@
+---
+- name: set timezone to Asia/Tokyo
+  timezone:
+    name: Asia/Tokyo
+
+- name: install tools
+  apt:
+    name:
+      - git
+      - sshpass
+      - traceroute
+      - zip
+      - unzip
+      - cifs-utils
+      - python3-apt
+      - python3-pip
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+
+- name: create parts directory
+  file:
+    path: "{{ parts_dir }}"
+    state: directory
+    mode: 0777
+  when: "'spservers in group_names'"
+
+- name: setting hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    backup: yes
+  when: "'production' not in group_names"
+
+- name: setting pro hosts
+  template:
+    src: pro_hosts.j2
+    dest: /etc/hosts
+    backup: yes
+  when: "'production' in group_names"

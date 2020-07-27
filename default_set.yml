@@ -1,0 +1,6 @@
+---
+- name: Default set up all servers
+  hosts: all
+  become: yes
+  roles:
+    - common

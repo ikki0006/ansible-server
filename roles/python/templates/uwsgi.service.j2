@@ -1,0 +1,18 @@
+[Unit]
+Description = sample uWSGI deamon
+After = syslog.target
+
+[Service]
+WorkingDirectory=/opt/sample/
+ExecStart=/usr/local/bin/pipenv run uwsgi --yaml /opt/sample/uwsgi.yml
+Restart=no
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+User=adminuser
+Group=adminuser
+
+
+[Install]
+WantedBy=multi-user.target

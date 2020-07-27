@@ -1,0 +1,10 @@
+---
+- name: delete default config
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+
+- name: restart nginx
+  systemd:
+    name: nginx
+    state: restarted

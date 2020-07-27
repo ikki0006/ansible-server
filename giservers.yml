@@ -1,0 +1,8 @@
+---
+- name: giservers set up
+  hosts: giservers
+  become: yes
+  roles:
+    - docker
+    - disk
+    - docker-compose

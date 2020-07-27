@@ -1,0 +1,7 @@
+---
+- include: default_set.yml
+- include: spservers.yml
+- include: giservers.yml
+- include: doservers.yml
+- include: apservers.yml
+- include: rpservers.yml

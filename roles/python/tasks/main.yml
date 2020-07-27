@@ -1,0 +1,33 @@
+---
+- name: install premise package
+  apt:
+    name:
+      - python-pip
+      - python3.8
+      - python3-distutils
+      - python3.8-dev
+      - build-essential
+    update_cache: yes
+    cache_valid_time: 3600
+    state: present
+
+- name: install pipenv
+  pip:
+    name: pipenv
+    executable: pip
+
+- name: set uwsgi config
+  template:
+    src: uwsgi.yml.j2
+    dest: /opt/sample/uwsgi.yml
+
+- name: set uwsgi service config
+  template:
+    src: uwsgi.service.j2
+    dest: /etc/systemd/system/uwsgi.service
+
+- name: set adminuser profile
+  template:
+    src: profile.j2
+    dest: /home/adminuser/.profile
+

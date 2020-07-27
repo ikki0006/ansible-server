@@ -1,0 +1,17 @@
+---
+- name: setting directory
+  file:
+    path: /opt/gitlab-runner/
+    state: directory
+
+- name: get gitlab-runner
+  get_url:
+    url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
+    dest: /opt/gitlab-runner/
+
+- name: install gitlab-runner
+  apt:
+    deb: "/opt/gitlab-runner/gitlab-runner_amd64.deb"
+
+- name: start gitlab-runner
+  shell: gitlab-runner start

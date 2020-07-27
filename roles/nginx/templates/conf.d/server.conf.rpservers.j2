@@ -1,0 +1,7 @@
+
+location / {
+    client_body_buffer_size 10M;
+    client_max_body_size 10M;
+    proxy_pass http://{{ apserver }};
+    proxy_set_header Host $host;
+}

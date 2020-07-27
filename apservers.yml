@@ -1,0 +1,7 @@
+---
+- name: apservers set up
+  hosts: apservers
+  become: yes
+  roles:
+    - nginx
+    - python

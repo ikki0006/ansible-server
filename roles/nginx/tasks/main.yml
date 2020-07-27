@@ -1,0 +1,48 @@
+---
+- name: Add Apt key for nginx repo
+  apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+    state: present
+
+- name: Install nginx repo
+  apt_repository:
+    repo: deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
+    state: present
+
+- name: install nginx
+  apt:
+    name: nginx=1.18.0-1~bionic
+    state: present
+  notify:
+    - delete default config
+    - restart nginx
+
+- name: config set nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    backup: yes
+  notify: restart nginx
+
+- name: setting nginx security config
+  template:
+    src: conf.d/security.conf.j2
+    dest: /etc/nginx/conf.d/security.conf
+    backup: yes
+  notify: restart nginx
+
+- name: setting nginx server config tasks
+  include_tasks: tasks/server_conf.yml
+  with_items:
+    - apservers
+    - rpservers
+  loop_control:
+    loop_var: server_category
+
+- name: setting permission html directory
+  file:
+    path: /usr/share/nginx/html
+    state: directory
+    mode: '0777'
+ 
+

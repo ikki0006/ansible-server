@@ -1,0 +1,9 @@
+---
+- name: install tools
+  apt:
+    name:
+      - lftp
+    state: present
+
+- name: setting lftp
+  template: src=lftp.conf.j2 dest=/etc/lftp.conf backup=yes

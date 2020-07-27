@@ -1,0 +1,15 @@
+uwsgi:
+  home: /opt/sample-ui/.venv
+  chdir: /opt/sample-ui
+  pidfile: /opt/sample-ui/sample-ui-master.pid
+  module: config.wsgi
+  http: 127.0.0.1:8000
+  logto: /opt/sample-ui/logs/%n.log
+  touch-logreopen: %(base)/.logreopen_trigger
+  master: true
+  processes: 1
+  threads: 2
+  vaccum: true
+  harakiri: 30
+  max-request: 100
+  env: ENV={{ env }}

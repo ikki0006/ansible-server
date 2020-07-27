@@ -1,0 +1,27 @@
+---
+- name: disk add confirm
+  pause: prompt="sdc1のみアタッチできます。また、diskのパーテーションや初期化は手動で完了している必要があります。このまま進めて良いですか？ (y/n)"
+  register: yn
+
+- name: abort
+  fail: msg="Aborted!! Ansibleを中止しました。"
+  when: yn.user_input != 'y'
+  run_once: true
+
+- name: make disk directry
+  file:
+    path: /disk
+    state: directory
+
+- name: fstab line in /disk
+  mount:
+    name: /disk
+    src: /dev/sdc1
+    fstype: ext4
+    opts: defaults,nofail
+    state: mounted
+
+- name: make docker directry
+  file:
+    path: /disk/docker
+    state: directory

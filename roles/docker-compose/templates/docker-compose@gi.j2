@@ -1,0 +1,16 @@
+git-lab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'localhost'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.0.80'
+        gitlab_rails['lfs_enabled'] = true
+    ports:
+      - '443:443'
+      - '2022:22'
+      - '80:80' 
+    volumes:
+      - '/disk/docker/git_data/etc:/etc/gitlab'
+      - '/disk/docker/git_data/logs:/var/log/gitlab'
+      - '/disk/docker/git_data/data:/var/opt/gitlab'

@@ -1,0 +1,7 @@
+---
+- name: doservers set up
+  hosts: doservers
+  become: yes
+  roles:
+    - docker
+    - gitlab-runner

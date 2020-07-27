@@ -1,0 +1,13 @@
+[management:children]
+spservers
+giservers
+doservers
+
+[spservers]
+mansp01
+
+[giservers]
+mangi01
+
+[doservers]
+mando01
